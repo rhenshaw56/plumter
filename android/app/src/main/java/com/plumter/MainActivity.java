@@ -1,10 +1,9 @@
 package com.plumter;
 
 import android.os.Bundle;
-import com.reactnativenavigation.NavigationActivity;
 import org.devio.rn.splashscreen.SplashScreen;
 
-public class MainActivity extends NavigationActivity {
+public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "MySplashScreen";
   }
