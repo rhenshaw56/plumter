@@ -1,0 +1,53 @@
+{
+  "accounts": [
+    {
+      "currency": "Dollar",
+      "symbol": "$",
+      "balance": 50
+    },
+    {
+      "currency": "Naira",
+      "symbol": "N",
+      "balance": 500000
+    },
+    {
+      "currency": "Dollar",
+      "symbol": "$",
+      "balance": 50
+    }
+  ],
+  "history": [
+    {
+      "timeStamp": 1570031976502,
+      "description": "from @abby",
+      "amount": 2000,
+      "currency": "$",
+      "avatar": "",
+      "type": "credit"
+    },
+    {
+      "timeStamp": 1572231976502,
+      "description": "from @abby",
+      "amount": 2000,
+      "currency": "$",
+      "avatar": "",
+      "type": "credit"
+    },
+    {
+      "timeStamp": 1573017590084,
+      "description": "from @henry",
+      "amount": 25000,
+      "currency": "€",
+      "avatar": "",
+      "type": "credit"
+    },
+    {
+      "timeStamp": 1573017960202,
+      "description": "Airtime top up",
+      "amount": 50000,
+      "currency": "N",
+      "avatar": "",
+      "type": "debit"
+    }
+  ]
+}

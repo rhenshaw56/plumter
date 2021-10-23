@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollStyle: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
     backgroundColor: '#ffffff',

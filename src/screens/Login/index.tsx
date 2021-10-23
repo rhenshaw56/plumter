@@ -35,6 +35,7 @@ const Login = (props: IProps): ReactElement => {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
+        style={styles.scrollStyle}
         contentContainerStyle={styles.scrollStyle}>
         <View style={styles.container}>
           <View style={styles.headerStyle}>
@@ -99,11 +100,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  scrollStyle: {
-    flex: 1,
+  contentScrollStyle: {
     justifyContent: 'center',
     alignContent: 'center',
+  },
+  scrollStyle: {
     backgroundColor: '#ffffff',
+    alignSelf: 'stretch',
+    flex: 1,
   },
   text: {
     fontSize: 25,

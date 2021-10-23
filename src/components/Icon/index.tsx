@@ -3,12 +3,14 @@ import {Image, ImageSourcePropType} from 'react-native';
 
 interface IIconProps {
   asset: ImageSourcePropType;
+  height?: number;
+  width?: number;
 }
 
-const Icon = ({asset}: IIconProps) => {
+const Icon = ({asset, height, width}: IIconProps) => {
   const styles = {
-    width: 23,
-    height: 23,
+    width: width || 23,
+    height: height || 23,
     margin: 12,
   };
   return <Image style={styles} source={asset} />;
