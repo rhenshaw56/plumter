@@ -48,6 +48,46 @@
       "currency": "N",
       "avatar": "",
       "type": "debit"
+    },
+    {
+      "timeStamp": 1573017960202,
+      "description": "Airtime top up",
+      "amount": 50000,
+      "currency": "N",
+      "avatar": "",
+      "type": "debit"
+    },
+    {
+      "timeStamp": 1573017960202,
+      "description": "Airtime top up",
+      "amount": 50000,
+      "currency": "N",
+      "avatar": "",
+      "type": "debit"
+    },
+    {
+      "timeStamp": 1573017960202,
+      "description": "Airtime top up",
+      "amount": 50000,
+      "currency": "N",
+      "avatar": "",
+      "type": "debit"
+    },
+    {
+      "timeStamp": 1573017960202,
+      "description": "Airtime top up",
+      "amount": 50000,
+      "currency": "N",
+      "avatar": "",
+      "type": "debit"
+    },
+    {
+      "timeStamp": 1573017960202,
+      "description": "Airtime top up",
+      "amount": 50000,
+      "currency": "N",
+      "avatar": "",
+      "type": "debit"
     }
   ]
 }

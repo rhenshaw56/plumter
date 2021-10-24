@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   scrollStyle: {
     backgroundColor: '#ffffff',
     alignSelf: 'stretch',
-    flex: 1,
+    // flex: 1,
   },
   userHandle: {
     fontSize: 14,
@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 10,
 
-    elevation: 9,
     marginTop: 16,
   },
   historyHeaderText: {

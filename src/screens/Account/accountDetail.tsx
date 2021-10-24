@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 10,
 
-    elevation: 9,
     marginRight: 14,
   },
   countryLogo: {},
