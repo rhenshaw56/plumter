@@ -1,5 +1,13 @@
 import React, {ReactElement} from 'react';
-import {View, StyleSheet, ImageSourcePropType} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ImageSourcePropType,
+  TouchableOpacity,
+  GestureResponderEvent,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import {Avatar as NBAvatar} from 'native-base';
 
 // @ts-ignore
@@ -7,18 +15,28 @@ import Logo from '../../assets/icons/logo.svg';
 
 interface IProps {
   asset: ImageSourcePropType;
+  onPress?: (e: GestureResponderEvent) => void;
+  size?: string;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
-const Avatar = ({asset}: IProps): ReactElement => {
+const Avatar = ({
+  asset,
+  onPress,
+  size,
+  containerStyle,
+}: IProps): ReactElement => {
   return (
-    <View style={styles.container}>
-      <NBAvatar source={asset}>
-        <NBAvatar.Badge style={styles.badge}>
-          <View style={styles.badgeLogo}>
-            <Logo />
-          </View>
-        </NBAvatar.Badge>
-      </NBAvatar>
+    <View style={containerStyle || styles.container}>
+      <TouchableOpacity onPress={onPress}>
+        <NBAvatar size={size} source={asset}>
+          <NBAvatar.Badge style={styles.badge}>
+            <View style={styles.badgeLogo}>
+              <Logo />
+            </View>
+          </NBAvatar.Badge>
+        </NBAvatar>
+      </TouchableOpacity>
     </View>
   );
 };

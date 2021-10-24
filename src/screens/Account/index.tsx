@@ -1,11 +1,21 @@
-import React, {ReactElement, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {ReactElement, useEffect, useRef, useState} from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  Platform,
+} from 'react-native';
+import {ModalView, UIModalPresentationStyles} from 'react-native-ios-modal';
 
 import Avatar from '../../components/Avatar';
 import {HorizontalList, VerticalList} from '../../components/List';
 import {InitialParams, NavigationProp} from '../../../types';
 import AccountDetail from './accountDetail';
 import AccountHistory from './accountHistory';
+import ProfileModal from './profileModal';
 
 import data from './mock.json';
 
@@ -19,36 +29,87 @@ const Account = (props: IProps): ReactElement => {
   const {navigation, setActiveTab, index} = props;
   const currentIndex = navigation.getState().index;
 
+  const iosModalRef = useRef(null);
+  const [androidModalVisibility, setAndroidModalVisibility] =
+    useState<boolean>(false);
+
   useEffect(() => {
     if (currentIndex === index) {
       setActiveTab('Home');
     }
   }, [currentIndex, index, setActiveTab]);
 
+  const closeModal = () => {
+    if (Platform.OS === 'ios' && iosModalRef.current) {
+      iosModalRef.current.setVisibility(false);
+    }
+    if (Platform.OS === 'android') {
+      setAndroidModalVisibility(false);
+    }
+  };
+
+  const showModal = () => {
+    if (Platform.OS === 'ios' && iosModalRef.current) {
+      iosModalRef.current.setVisibility(true);
+    }
+    if (Platform.OS === 'android') {
+      setAndroidModalVisibility(true);
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        style={styles.scrollStyle}
-        contentContainerStyle={styles.scrollStyle}>
-        <View style={styles.container}>
-          <View style={styles.user}>
-            {/*TODO: Pass source/url prop here*/}
-            <Avatar asset={require('../../assets/images/profile-img.png')} />
-            <Text style={styles.userHandle}>@yinka</Text>
-          </View>
-          <View style={styles.accounts}>
-            <HorizontalList data={data.accounts} item={AccountDetail} />
-          </View>
-          <View style={styles.historySection}>
-            <View>
-              <Text style={styles.historyHeaderText}>Recent History</Text>
-              <VerticalList data={data.history} item={AccountHistory} />
+    <>
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          style={styles.scrollStyle}
+          contentContainerStyle={styles.scrollStyle}>
+          <View style={styles.container}>
+            <View style={styles.user}>
+              <Avatar
+                asset={require('../../assets/images/profile-img.png')}
+                onPress={showModal}
+              />
+              <Text style={styles.userHandle}>@yinka</Text>
+            </View>
+            <View style={styles.accounts}>
+              <HorizontalList data={data.accounts} item={AccountDetail} />
+            </View>
+            <View style={styles.historySection}>
+              <View>
+                <Text style={styles.historyHeaderText}>Recent History</Text>
+                <VerticalList data={data.history} item={AccountHistory} />
+              </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+      {Platform.OS === 'ios' && (
+        <ModalView
+          containerStyle={styles.modalContainer}
+          enableSwipeGesture={false}
+          setEnableSwipeGestureFromProps={true}
+          isModalBGTransparent={true}
+          isModalBGBlurred={false}
+          modalPresentationStyle={UIModalPresentationStyles.pageSheet}
+          ref={r => (iosModalRef.current = r)}>
+          <ProfileModal onClose={closeModal} />
+        </ModalView>
+      )}
+      {Platform.OS === 'android' && (
+        <Modal
+          visible={androidModalVisibility}
+          hardwareAccelerated={true}
+          statusBarTranslucent={true}
+          animationType="slide">
+          <SafeAreaView style={styles.safeArea}>
+            <View style={styles.modalContainer}>
+              <ProfileModal onClose={closeModal} />
+            </View>
+          </SafeAreaView>
+        </Modal>
+      )}
+    </>
   );
 };
 
@@ -75,7 +136,6 @@ const styles = StyleSheet.create({
   scrollStyle: {
     backgroundColor: '#ffffff',
     alignSelf: 'stretch',
-    // flex: 1,
   },
   userHandle: {
     fontSize: 14,
@@ -85,6 +145,13 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: '#9B9B9B',
     fontFamily: 'Graphik-Bold',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#f4f9ff',
+    padding: 20,
+    borderRadius: 30,
   },
   historySection: {
     alignSelf: 'stretch',
