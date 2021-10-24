@@ -1,13 +1,11 @@
-import React, {ReactElement, useEffect, useRef} from 'react';
+import React, {ReactElement, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
@@ -30,7 +28,7 @@ const Login = (props: IProps): ReactElement => {
   const handleSubmitPress = () => {
     props.navigation.navigate('Account');
   };
-  // console.log(props);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
