@@ -36,6 +36,8 @@ const INACTIVE_ASSETS: GenericObject<ImageSourcePropType> = {
   Reader: require('./src/assets/icons/reader.png'),
 };
 
+const TABS_WITH_NO_BELL = ['Cards'];
+
 const Stack = createNativeStackNavigator<StackParamList>();
 const Tab = createBottomTabNavigator<StackParamList>();
 
@@ -94,7 +96,13 @@ const AccountTabs = () => {
 };
 
 const Navigator = () => {
-  const {isLoggedIn, ...rest} = useSelector((state: RootState) => state.user);
+  const {
+    user: {isLoggedIn},
+    app: {activeTab},
+  } = useSelector((state: RootState) => state);
+
+  const hideHeaderBar = TABS_WITH_NO_BELL.includes(activeTab);
+
   if (isLoggedIn) {
     return (
       <Stack.Navigator>
@@ -104,8 +112,16 @@ const Navigator = () => {
           options={{
             title: '',
             headerBackVisible: false,
-            headerRight: () => <NotificationBell />,
+            headerRight: () => <NotificationBell hidden={hideHeaderBar} />,
             headerShadowVisible: false,
+            headerStyle: {
+              ...(hideHeaderBar && {
+                width: 0,
+                height: 0,
+                display: 'none',
+                backgroundColor: '#f4F9ff',
+              }),
+            },
           }}
         />
       </Stack.Navigator>

@@ -2,16 +2,20 @@ import React, {ReactElement, useEffect, useRef} from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
+  Dimensions,
+  Image,
   TextInput,
   TouchableOpacity,
   useColorScheme,
+  StatusBar,
   View,
 } from 'react-native';
 
 import {InitialParams, NavigationProp} from '../../../types';
+import Icon from '../../components/Icon';
+import CardCta from '../../components/Button/cardCta';
 
 interface IProps {
   navigation: NavigationProp<'Reader'>;
@@ -33,14 +37,50 @@ const Cards = (props: IProps): ReactElement => {
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.scrollStyle}>
-        <View style={styles.container} />
+        <View style={styles.cardSection}>
+          <Text style={styles.cardBalance}>$200.56</Text>
+          <View style={styles.cardDesc}>
+            <Text style={styles.activeText}>Active</Text>
+            <Text style={styles.cardType}> ~ Virtual Dollar card</Text>
+          </View>
+          <View style={styles.card}>
+            <Image
+              style={styles.virtualCard}
+              source={require('../../assets/images/virtual-card.png')}
+            />
+          </View>
+          <View style={styles.cardActions}>
+            <CardCta
+              text="Show card"
+              icon={require('../../assets/icons/eye.png')}
+            />
+            <CardCta text="Fund card" iconText="+" />
+            <CardCta
+              text="Freeze"
+              icon={require('../../assets/icons/freeze.png')}
+            />
+          </View>
+          <Text />
+        </View>
+        <View style={styles.cardActivity}>
+          <Text style={styles.cardActivityHeader}>
+            Card activity for June 2020
+          </Text>
+          <View style={styles.activityFilter}>
+            <Text>Select Month</Text>
+            <Text>Search</Text>
+            <Text>Download</Text>
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default Cards;
-
+const dimensions = Dimensions.get('screen');
+const screenHeight = dimensions.height;
+const screenWidth = dimensions.width;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -50,11 +90,65 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollStyle: {
-    // flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
     backgroundColor: '#ffffff',
   },
+  cardSection: {
+    flex: 1,
+    height: screenHeight * 0.5,
+    backgroundColor: '#f4F9ff',
+    borderBottomWidth: 1.2,
+    borderBottomRadius: 8,
+    borderBottomColor: '#e3F0ff',
+    paddingTop: 40,
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+  cardBalance: {
+    fontSize: 31,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 34,
+    textAlign: 'left',
+    color: '#000000',
+    fontFamily: 'Graphik-Bold',
+  },
+  cardDesc: {
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 20,
+    textAlign: 'left',
+    fontFamily: 'Graphik-Bold',
+    flexDirection: 'row',
+  },
+  activeText: {
+    color: '#65b634',
+  },
+  cardType: {
+    color: '#9b9b9b',
+  },
+  card: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 41,
+  },
+  virtualCard: {
+    width: 320,
+    height: 211,
+  },
+  cardActions: {
+    flexDirection: 'row',
+    marginTop: 22,
+    alignItems: 'center',
+  },
+  cardActivity: {
+    flex: 1,
+    height: 'stretch',
+  },
+  activityFilter: {},
+  cardActivityHeader: {},
   text: {
     fontSize: 25,
     fontWeight: 'normal',
