@@ -2,7 +2,6 @@ import React, {ReactElement} from 'react';
 import {
   View,
   StyleSheet,
-  ImageSourcePropType,
   TouchableOpacity,
   GestureResponderEvent,
   StyleProp,
@@ -19,7 +18,7 @@ interface IProps {
   size?: string;
   containerStyle?: StyleProp<ViewStyle>;
 }
-
+// TODO: This component needs a Fallback src
 const Avatar = ({
   asset,
   onPress,
