@@ -1,4 +1,5 @@
-import React, {ReactElement, useEffect} from 'react';
+import React, {ReactElement, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   SafeAreaView,
   ScrollView,
@@ -7,7 +8,10 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from 'react-native';
+// import {ActivityIndicator} from 'native-base';
+// @ts-ignore
 import SplashScreen from 'react-native-splash-screen';
 
 import {wait} from '../../utils';
@@ -15,18 +19,40 @@ import {wait} from '../../utils';
 // @ts-ignore
 import Face from '../../assets/icons/face.svg';
 import {NavigationProp} from '../../../types';
+import * as user from '../../redux/actions/userActions';
+import * as utils from '../../utils';
+import {RootState} from '../../redux/reducers';
 
 interface IProps {
   navigation: NavigationProp<'Login'>;
 }
 
 const Login = (props: IProps): ReactElement => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const {loading} = useSelector((state: RootState) => state.user);
+
+  const dispatch = useDispatch();
   useEffect(() => {
     wait(2000).then(() => SplashScreen.hide());
   }, []);
 
   const handleSubmitPress = () => {
-    props.navigation.navigate('Account');
+    if (email && password) {
+      const emailErrors = utils.validateEmail(email);
+      const passwordErrors = utils.validatePassword(password);
+
+      if (emailErrors === undefined && passwordErrors === undefined) {
+        console.log('DISPATCHED');
+        dispatch(
+          user.loginUser({
+            email,
+            password,
+          }),
+        );
+      }
+    }
   };
 
   return (
@@ -45,40 +71,43 @@ const Login = (props: IProps): ReactElement => {
           <View style={styles.sectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={UserEmail => setUserEmail(UserEmail)}
               placeholder="Your email"
               placeholderTextColor="#9b9b9b"
               autoCapitalize="none"
               keyboardType="email-address"
               returnKeyType="next"
-              onSubmitEditing={() =>
-                passwordInputRef.current && passwordInputRef.current.focus()
-              }
               underlineColorAndroid="#f000"
               blurOnSubmit={false}
+              value={email}
+              onChangeText={text => setEmail(text)}
             />
           </View>
           <View style={styles.sectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={UserEmail => setUserEmail(UserEmail)}
               placeholder="Your password"
               placeholderTextColor="#9b9b9b"
               autoCapitalize="none"
               keyboardType="email-address"
               returnKeyType="next"
-              onSubmitEditing={() =>
-                passwordInputRef.current && passwordInputRef.current.focus()
-              }
               underlineColorAndroid="#f000"
               blurOnSubmit={false}
+              secureTextEntry={true}
+              value={password}
+              onChangeText={text => setPassword(text)}
             />
           </View>
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitPress}>
-            <Text style={styles.buttonTextStyle}>Log in</Text>
+            {loading ? (
+              <View style={styles.spinner}>
+                <ActivityIndicator size="small" color="#ffffff" />
+              </View>
+            ) : (
+              <Text style={styles.buttonTextStyle}>Log in</Text>
+            )}
           </TouchableOpacity>
           <Text style={styles.linkText}>Forgot password?</Text>
           <Text style={styles.linkText}>Create account</Text>
@@ -92,6 +121,11 @@ export default Login;
 
 const styles = StyleSheet.create({
   safeArea: {
+    flex: 1,
+  },
+  spinner: {
+    justifyContent: 'center',
+    paddingVertical: 10,
     flex: 1,
   },
   container: {

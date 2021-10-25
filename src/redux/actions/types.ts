@@ -1,0 +1,9 @@
+export enum LOGIN {
+  REQUEST = 'LOG_IN_REQUEST',
+  SUCCESS = 'LOG_IN_SUCCESS',
+  FAILURE = 'LOG_IN_FAILURE',
+}
+
+export enum APP {
+  SET_ACTIVE_TAB = 'SET_ACTIVE_TAB',
+}

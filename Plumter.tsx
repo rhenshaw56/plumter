@@ -1,15 +1,24 @@
 import React, {useState} from 'react';
 import {ImageSourcePropType} from 'react-native';
+import {Provider, useDispatch, useSelector} from 'react-redux';
+import {Dispatch, AnyAction} from 'redux';
 import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 import Login from './src/screens/Login';
 import Account from './src/screens/Account';
 import Cards from './src/screens/Cards';
 import Reader from './src/screens/Reader';
 import Share from './src/screens/Share';
 import Icon from './src/components/Icon';
+import NotificationBell from './src/components/NotificationBell';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {RootState} from './src/redux/reducers';
+
+import * as app from './src/redux/actions/appActions';
+
+import {store} from './src/redux/store';
 
 import {StackParamList, GenericObject, TabScreenType} from './types';
 
@@ -31,8 +40,13 @@ const Stack = createNativeStackNavigator<StackParamList>();
 const Tab = createBottomTabNavigator<StackParamList>();
 
 const AccountTabs = () => {
-  const [activeTab, setActiveTab] = useState<TabScreenType>('Home');
-  console.log('active', activeTab);
+  const dispatch: Dispatch<AnyAction> = useDispatch();
+  const [activeTab, setTab] = useState<TabScreenType>('Home');
+
+  const setActiveTab = (activeTab: TabScreenType): void => {
+    setTab(activeTab);
+    dispatch(app.setActiveTab(activeTab));
+  };
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -79,31 +93,44 @@ const AccountTabs = () => {
   );
 };
 
+const Navigator = () => {
+  const {isLoggedIn, ...rest} = useSelector((state: RootState) => state.user);
+  if (isLoggedIn) {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Account"
+          component={AccountTabs}
+          options={{
+            title: '',
+            headerBackVisible: false,
+            headerRight: () => <NotificationBell />,
+            headerShadowVisible: false,
+          }}
+        />
+      </Stack.Navigator>
+    );
+  }
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{headerShadowVisible: false, title: ''}}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const App = () => {
   return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{headerShadowVisible: false, title: ''}}
-          />
-          <Stack.Screen
-            name="Account"
-            component={AccountTabs}
-            options={{
-              title: '',
-              headerBackVisible: false,
-              headerRight: () => (
-                <Icon asset={require('./src/assets/icons/bell.png')} />
-              ),
-              headerShadowVisible: false,
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <Provider store={store}>
+      <NativeBaseProvider>
+        <NavigationContainer>
+          <Navigator />
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </Provider>
   );
 };
 
