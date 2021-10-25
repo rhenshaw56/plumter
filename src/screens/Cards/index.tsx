@@ -48,16 +48,18 @@ const Cards = (props: IProps): ReactElement => {
               source={require('../../assets/images/virtual-card.png')}
             />
           </View>
-          <View style={styles.cardActions}>
-            <CardCta
-              text="Show card"
-              icon={require('../../assets/icons/eye.png')}
-            />
-            <CardCta text="Fund card" iconText="+" />
-            <CardCta
-              text="Freeze"
-              icon={require('../../assets/icons/freeze.png')}
-            />
+          <View style={styles.card}>
+            <View style={styles.cardActions}>
+              <CardCta
+                text="Show card"
+                icon={require('../../assets/icons/eye.png')}
+              />
+              <CardCta text="Fund card" iconText="+" />
+              <CardCta
+                text="Freeze"
+                icon={require('../../assets/icons/freeze.png')}
+              />
+            </View>
           </View>
           <Text />
         </View>
@@ -124,7 +126,6 @@ const styles = StyleSheet.create({
   },
   cardSection: {
     flex: 1,
-    height: screenHeight * 0.5,
     backgroundColor: '#f4F9ff',
     borderBottomWidth: 1.2,
     borderBottomRadius: 8,
@@ -175,7 +176,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 67,
     paddingLeft: 30,
-    paddingRight: 30,
     justifyContent: 'space-evenly',
   },
   activityFilter: {
