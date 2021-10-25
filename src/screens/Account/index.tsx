@@ -1,4 +1,5 @@
 import React, {ReactElement, useEffect, useRef, useState} from 'react';
+import {useSelector} from 'react-redux';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,12 +11,14 @@ import {
 } from 'react-native';
 import {ModalView, UIModalPresentationStyles} from 'react-native-ios-modal';
 
+import {RootState} from '../../redux/reducers';
 import Avatar from '../../components/Avatar';
 import {HorizontalList, VerticalList} from '../../components/List';
 import {InitialParams, NavigationProp} from '../../../types';
 import AccountDetail from './accountDetail';
 import AccountHistory from './accountHistory';
 import ProfileModal from './profileModal';
+import {getUserThumbnailUrl} from '../../utils';
 
 import data from './mock.json';
 
@@ -26,8 +29,11 @@ interface IProps {
 }
 
 const Account = (props: IProps): ReactElement => {
+  const {currentUser} = useSelector((state: RootState) => state.user);
   const {navigation, setActiveTab, index} = props;
   const currentIndex = navigation.getState().index;
+
+  const imageUrl = getUserThumbnailUrl(currentUser.id);
 
   const iosModalRef = useRef(null);
   const [androidModalVisibility, setAndroidModalVisibility] =
@@ -66,10 +72,7 @@ const Account = (props: IProps): ReactElement => {
           contentContainerStyle={styles.scrollStyle}>
           <View style={styles.container}>
             <View style={styles.user}>
-              <Avatar
-                asset={require('../../assets/images/profile-img.png')}
-                onPress={showModal}
-              />
+              <Avatar asset={imageUrl} onPress={showModal} />
               <Text style={styles.userHandle}>@yinka</Text>
             </View>
             <View style={styles.accounts}>
@@ -93,7 +96,7 @@ const Account = (props: IProps): ReactElement => {
           isModalBGBlurred={false}
           modalPresentationStyle={UIModalPresentationStyles.pageSheet}
           ref={r => (iosModalRef.current = r)}>
-          <ProfileModal onClose={closeModal} />
+          <ProfileModal imgSrc={imageUrl} onClose={closeModal} />
         </ModalView>
       )}
       {Platform.OS === 'android' && (
@@ -104,7 +107,7 @@ const Account = (props: IProps): ReactElement => {
           animationType="slide">
           <SafeAreaView style={styles.safeArea}>
             <View style={styles.modalContainer}>
-              <ProfileModal onClose={closeModal} />
+              <ProfileModal imgSrc={imageUrl} onClose={closeModal} />
             </View>
           </SafeAreaView>
         </Modal>

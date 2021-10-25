@@ -14,7 +14,7 @@ import {Avatar as NBAvatar} from 'native-base';
 import Logo from '../../assets/icons/logo.svg';
 
 interface IProps {
-  asset: ImageSourcePropType;
+  asset: string;
   onPress?: (e: GestureResponderEvent) => void;
   size?: string;
   containerStyle?: StyleProp<ViewStyle>;
@@ -29,7 +29,11 @@ const Avatar = ({
   return (
     <View style={containerStyle || styles.container}>
       <TouchableOpacity onPress={onPress}>
-        <NBAvatar size={size} source={asset}>
+        <NBAvatar
+          size={size}
+          source={{
+            uri: asset,
+          }}>
           <NBAvatar.Badge style={styles.badge}>
             <View style={styles.badgeLogo}>
               <Logo />

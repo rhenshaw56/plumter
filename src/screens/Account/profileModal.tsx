@@ -16,9 +16,10 @@ import Share from '../../assets/icons/share.svg';
 
 interface IProps {
   onClose: () => void;
+  imgSrc: string;
 }
 
-const ProfileModal = ({onClose}: IProps): ReactElement => {
+const ProfileModal = ({onClose, imgSrc}: IProps): ReactElement => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
@@ -33,7 +34,7 @@ const ProfileModal = ({onClose}: IProps): ReactElement => {
           <View style={styles.avatar}>
             <Avatar
               size="lg"
-              asset={require('../../assets/images/profile-img.png')}
+              asset={imgSrc}
               containerStyle={styles.avatarContainer}
             />
             <Text style={styles.userFullName}>Adeyinka Elujoba</Text>
@@ -109,7 +110,6 @@ const styles = StyleSheet.create({
   },
   closeModalText: {
     textAlign: 'left',
-    // margin: 22,
     fontSize: 14,
     fontWeight: '500',
     fontStyle: 'normal',

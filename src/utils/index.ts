@@ -1,4 +1,5 @@
 import {format} from 'date-fns';
+import Config from 'react-native-config';
 import * as Keychain from 'react-native-keychain';
 
 export const wait = (time: number): Promise<void> => {
@@ -35,4 +36,8 @@ export const getAuthCredentials = async () => {
 
 export const clearAuthCredentials = async () => {
   await Keychain.resetGenericPassword();
+};
+
+export const getUserThumbnailUrl = (userId: string) => {
+  return `${Config.API_URI}/users/${userId}/photo?returndefault=true`;
 };

@@ -44,7 +44,6 @@ const Login = (props: IProps): ReactElement => {
       const passwordErrors = utils.validatePassword(password);
 
       if (emailErrors === undefined && passwordErrors === undefined) {
-        console.log('DISPATCHED');
         dispatch(
           user.loginUser({
             email,
