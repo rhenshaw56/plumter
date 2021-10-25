@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect, useRef} from 'react';
+import React, {ReactElement, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,8 +8,6 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  useColorScheme,
-  StatusBar,
   View,
 } from 'react-native';
 
@@ -36,7 +34,8 @@ const Cards = (props: IProps): ReactElement => {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.scrollStyle}>
+        style={styles.scrollStyle}
+        contentContainerStyle={styles.contentScrollStyle}>
         <View style={styles.cardSection}>
           <Text style={styles.cardBalance}>$200.56</Text>
           <View style={styles.cardDesc}>
@@ -67,9 +66,36 @@ const Cards = (props: IProps): ReactElement => {
             Card activity for June 2020
           </Text>
           <View style={styles.activityFilter}>
-            <Text>Select Month</Text>
-            <Text>Search</Text>
-            <Text>Download</Text>
+            <TextInput
+              style={styles.monthFilter}
+              placeholder="Select month"
+              placeholderTextColor="#9b9b9b"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              returnKeyType="next"
+              underlineColorAndroid="#f000"
+              blurOnSubmit={false}
+              secureTextEntry={true}
+            />
+            <TouchableOpacity
+              style={{...styles.activityButton, ...styles.spacer}}>
+              <View style={styles.activityIcon}>
+                <Icon
+                  style={styles.activityBtnIcons}
+                  asset={require('../../assets/icons/search.png')}
+                />
+              </View>
+              <Text style={styles.activityButtonTextStyle}>Search</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.activityButton}>
+              <View>
+                <Icon
+                  style={styles.activityBtnIcons}
+                  asset={require('../../assets/icons/download.png')}
+                />
+              </View>
+              <Text style={styles.activityButtonTextStyle}>Download</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -80,7 +106,6 @@ const Cards = (props: IProps): ReactElement => {
 export default Cards;
 const dimensions = Dimensions.get('screen');
 const screenHeight = dimensions.height;
-const screenWidth = dimensions.width;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -90,9 +115,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollStyle: {
+    backgroundColor: '#ffffff',
+    alignSelf: 'stretch',
+  },
+  contentScrollStyle: {
     justifyContent: 'center',
     alignContent: 'center',
-    backgroundColor: '#ffffff',
   },
   cardSection: {
     flex: 1,
@@ -145,83 +173,73 @@ const styles = StyleSheet.create({
   },
   cardActivity: {
     flex: 1,
-    height: 'stretch',
+    marginTop: 67,
+    paddingLeft: 30,
+    paddingRight: 30,
+    justifyContent: 'space-evenly',
   },
-  activityFilter: {},
-  cardActivityHeader: {},
-  text: {
-    fontSize: 25,
+  activityFilter: {
+    flexDirection: 'row',
+    marginTop: 21,
+    alignItems: 'center',
+  },
+  cardActivityHeader: {
+    fontSize: 14,
     fontWeight: 'normal',
     fontStyle: 'normal',
-    lineHeight: 27,
+    lineHeight: 15,
     textAlign: 'left',
-    margin: 10,
-    color: '#000000',
+    color: '#9B9B9B',
     fontFamily: 'Graphik-Bold',
   },
-  headerStyle: {
-    flexDirection: 'row',
-    height: 50,
-    marginTop: 10,
-    marginLeft: 34,
-    marginRight: 33,
-    margin: 11,
-  },
-  faceStyle: {
-    alignSelf: 'flex-end',
-    flexDirection: 'row',
-    height: 40,
-    marginTop: 10,
-    marginLeft: 34,
-    marginRight: 33,
-    margin: 11,
-  },
-  sectionStyle: {
-    flexDirection: 'row',
-    marginLeft: 34,
-    marginRight: 33,
-    marginBottom: 11,
-    backgroundColor: '#f5f5f5',
-  },
-  inputStyle: {
-    fontSize: 12,
+  monthFilter: {
+    fontSize: 11,
+    lineHeight: 12,
     fontFamily: 'Graphik-Regular',
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 20,
+    paddingRight: 20,
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 7,
     borderColor: '#dadae8',
-    width: 308,
-    height: 53,
+    width: 135,
+    height: 38,
+    justifyContent: 'center',
+    marginRight: 10,
   },
-  buttonTextStyle: {
+  activityButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: '#3581f3',
+    borderColor: '#dadae8',
+    borderRadius: 6,
+    borderWidth: 1,
+    height: 37,
+    width: 90,
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  activityButtonTextStyle: {
     color: '#ffffff',
-    paddingVertical: 10,
     fontFamily: 'Graphik-Medium',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: 15,
-    lineHeight: 16,
+    fontSize: 11,
+    lineHeight: 12,
     textAlign: 'center',
+    justifyContent: 'center',
   },
-  buttonStyle: {
-    paddingVertical: 10,
-    fontSize: 16,
-    backgroundColor: '#3581f3',
-    borderColor: '#dadae8',
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 58,
-    marginLeft: 34,
-    marginRight: 33,
+  spacer: {
+    marginRight: 4,
   },
-  linkText: {
-    color: '#3581f3',
-    textAlign: 'center',
-    marginTop: 30,
-    textDecorationLine: 'underline',
-    fontSize: 12,
+  activityBtnIcons: {
+    width: 18,
+    height: 18,
+    margin: 0,
+    marginRight: 3,
+  },
+  activityIcon: {
+    justifyContent: 'center',
     lineHeight: 13,
+    fontSize: 10,
   },
 });
